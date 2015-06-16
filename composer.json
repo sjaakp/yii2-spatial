@@ -1,0 +1,22 @@
+{
+    "name": "sjaakp/yii2-spatial",
+    "description": "Yii2 ActiveRecord supporting MySQL spatial data",
+    "keywords": ["yii", "yii2", "extension", "data", "db", "spatial", "MySQL", "map", "geo"],
+    "type": "yii2-extension",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sjaak Priester",
+            "email": "sjaak@sjaakpriester.nl",
+            "homepage": "http://sjaakpriester.nl"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "sjaakp\\spatial\\": ""
+        }
+    }
+}
