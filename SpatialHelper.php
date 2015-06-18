@@ -24,8 +24,8 @@ namespace sjaakp\spatial;
  * ]
  * (Notice: Leaflet uses [ lat, lng ] internally)
  *
- * GeoJSON see: http://geojson.org/geojson-spec.html
- * WKT see: http://dev.mysql.com/doc/refman/5.6/en/gis-data-formats.html#gis-wkt-format
+ * @link http://geojson.org/geojson-spec.html
+ * @link http://dev.mysql.com/doc/refman/5.6/en/gis-data-formats.html#gis-wkt-format
  *
  */
 use yii\helpers\Json;

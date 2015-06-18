@@ -12,6 +12,7 @@ use Yii;
 use yii\db\Expression;
 use yii\helpers\Json;
 use yii\db\ActiveRecord as YiiActiveRecord;
+use yii\base\InvalidCallException;
 
 class ActiveRecord extends YiiActiveRecord {
 
@@ -72,6 +73,11 @@ class ActiveRecord extends YiiActiveRecord {
                 $field = $column->name;
                 $attr = $this->getAttribute($field);    // get WKT
                 if ($attr)  {
+                    if (YII_DEBUG && preg_match( '/[\\x80-\\xff]+/' , $attr ))   {
+                        /* If you get an exception here, it probably means you have overridden find()
+                             and did not return sjaakp\spatial\ActiveQuery. */
+                        throw new InvalidCallException('Spatial attribute not converted.');
+                    }
                     $geom = SpatialHelper::wktToGeom($attr);
 
                     // Transform geometry FeatureCollection...
