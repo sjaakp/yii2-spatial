@@ -32,7 +32,7 @@ use yii\helpers\Json;
 
 class SpatialHelper {
 
-    protected function implodePoint($pntArray)  {
+    protected static function implodePoint($pntArray)  {
         return implode(' ', $pntArray);
     }
 
