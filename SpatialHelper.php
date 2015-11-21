@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Sjaak
- * Date: 19-10-2014
- * Time: 12:07
+ * MIT licence
+ * Version 1.0.0
+ * Sjaak Priester, Amsterdam 21-06-2014 ... 21-11-2015.
+ *
+ * ActiveRecord with spatial attributes in Yii 2.0 framework
+ *
+ * @link https://github.com/sjaakp/yii2-spatial
  */
 
 namespace sjaakp\spatial;
@@ -30,7 +33,7 @@ namespace sjaakp\spatial;
  */
 use yii\helpers\Json;
 
-class SpatialHelper {
+abstract class SpatialHelper { // declare abstract, we don't want instances (trick from Zend)
 
     protected static function implodePoint($pntArray)  {
         return implode(' ', $pntArray);
@@ -306,6 +309,14 @@ class SpatialHelper {
 
     public static function wktToFeature($wkt, $properties = [])   {
         return static::geomToFeature(static::wktToGeom($wkt), $properties);
+    }
+
+    public static function jsonToGeom($json)    {
+        return static::featureToGeom(Json::decode($json));
+    }
+
+    public static function geomToJson($geom)    {
+        return Json::encode(static::geomToFeature($geom));
     }
 
 /*    public static function featureCollToGeom($featureColl)  {

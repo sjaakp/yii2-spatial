@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Sjaak
- * Date: 21-9-2014
- * Time: 10:46
+ * MIT licence
+ * Version 1.0.0
+ * Sjaak Priester, Amsterdam 21-06-2014 ... 21-11-2015.
+ *
+ * ActiveRecord with spatial attributes in Yii 2.0 framework
+ *
+ * @link https://github.com/sjaakp/yii2-spatial
  */
 
 namespace sjaakp\spatial;
@@ -15,6 +18,8 @@ use yii\db\ActiveRecord as YiiActiveRecord;
 use yii\base\InvalidCallException;
 
 class ActiveRecord extends YiiActiveRecord {
+    /** @var  float - virtual attribute used by ActiveQuery::nearest() */
+    public $_d;
 
     public static function find()    {
         return Yii::createObject(ActiveQuery::className(), [get_called_class()]);
