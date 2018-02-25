@@ -22,7 +22,7 @@ class ActiveRecord extends YiiActiveRecord {
     public $_d;
 
     public static function find()    {
-        return Yii::createObject(ActiveQuery::className(), [get_called_class()]);
+        return Yii::createObject(ActiveQuery::class, [get_called_class()]);
     }
 
     public static function isSpatial($column)   {
