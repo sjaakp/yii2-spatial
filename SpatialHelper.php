@@ -1,8 +1,8 @@
 <?php
 /**
  * MIT licence
- * Version 1.0.0
- * Sjaak Priester, Amsterdam 21-06-2014 ... 21-11-2015.
+ * Version 1.1.0
+ * Sjaak Priester, Amsterdam 21-06-2014 ... 02-04-2019.
  *
  * ActiveRecord with spatial attributes in Yii 2.0 framework
  *
@@ -10,6 +10,8 @@
  */
 
 namespace sjaakp\spatial;
+
+use yii\helpers\Json;
 
 /**
  * Class SpatialHelper
@@ -31,8 +33,6 @@ namespace sjaakp\spatial;
  * @link http://dev.mysql.com/doc/refman/5.6/en/gis-data-formats.html#gis-wkt-format
  *
  */
-use yii\helpers\Json;
-
 abstract class SpatialHelper { // declare abstract, we don't want instances (trick from Zend)
 
     protected static function implodePoint($pntArray)  {

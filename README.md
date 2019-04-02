@@ -5,7 +5,9 @@ ActiveRecord with spatial attributes. Those attributes are transformed from the 
 
 **Yii-spatial** can also be used to find the model or models which are nearest to a given location.
 
-**Notice that this extension is intended to be used with a MySQL database exclusively.**
+**Notice that this extension is intended to be used with a MySQL or MariaDB database exclusively.**
+
+Version 1.1.0 is compatible with MySQL 5.7 and MariaDB 10.3.
 
 ## Installation ##
 
@@ -15,7 +17,7 @@ Install **Yii2-spatial** with [Composer](https://getcomposer.org/). Either add t
 
 Or run:
 
-`$ php composer.phar require sjaakp/yii2-spatial "*"` 
+`composer require sjaakp/yii2-spatial "*"` 
 
 You can manually install **Yii2-spatial** by [downloading the source in ZIP-format](https://github.com/sjaakp/yii2-spatial/archive/master.zip).
 

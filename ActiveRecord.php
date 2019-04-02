@@ -1,8 +1,8 @@
 <?php
 /**
  * MIT licence
- * Version 1.0.0
- * Sjaak Priester, Amsterdam 21-06-2014 ... 21-11-2015.
+ * Version 1.1.0
+ * Sjaak Priester, Amsterdam 21-06-2014 ... 02-04-2019.
  *
  * ActiveRecord with spatial attributes in Yii 2.0 framework
  *
@@ -17,10 +17,18 @@ use yii\helpers\Json;
 use yii\db\ActiveRecord as YiiActiveRecord;
 use yii\base\InvalidCallException;
 
+/**
+ * Class ActiveRecord
+ * @package sjaakp\spatial
+ */
 class ActiveRecord extends YiiActiveRecord {
     /** @var  float - virtual attribute used by ActiveQuery::nearest() */
     public $_d;
 
+    /**
+     * @return object|\yii\db\ActiveQuery
+     * @throws \yii\base\InvalidConfigException
+     */
     public static function find()    {
         return Yii::createObject(ActiveQuery::class, [get_called_class()]);
     }
@@ -42,6 +50,11 @@ class ActiveRecord extends YiiActiveRecord {
 
     protected $_saved = [];
 
+    /**
+     * @param bool $insert
+     * @return bool
+     * @throws \yii\base\InvalidConfigException
+     */
     public function beforeSave($insert)    {
         $r = parent::beforeSave($insert);
         if ($r) {
@@ -55,7 +68,7 @@ class ActiveRecord extends YiiActiveRecord {
                         $this->_saved[$field] = $attr;
                         $feature = Json::decode($attr);
                         $wkt = SpatialHelper::featureToWkt($feature);
-                        $this->setAttribute($field, new Expression("GeomFromText('$wkt')"));
+                        $this->setAttribute($field, new Expression("ST_GeomFromText('$wkt')"));
                     }
                 }
             }
@@ -63,12 +76,19 @@ class ActiveRecord extends YiiActiveRecord {
         return $r;
     }
 
+    /**
+     * @param bool $insert
+     * @param array $changedAttributes
+     */
     public function afterSave($insert, $changedAttributes)    {
         foreach ($this->_saved as $field => $attr)
             $this->setAttribute($field, $attr);
         parent::afterSave($insert, $changedAttributes);
     }
 
+    /**
+     * @throws \yii\base\InvalidConfigException
+     */
     public function afterFind()    {
         parent::afterFind();
 
@@ -110,7 +130,12 @@ class ActiveRecord extends YiiActiveRecord {
         }
     }
 
-    // Override this function to set more Feature properties
+    /**
+     * Override this function to set more Feature properties
+     * @param $field
+     * @param $geometry
+     * @return array
+     */
     public function featureProperties($field, $geometry)  {
         return [ 'id' => $this->getPrimaryKey() ];
     }

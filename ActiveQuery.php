@@ -1,8 +1,8 @@
 <?php
 /**
  * MIT licence
- * Version 1.0.0
- * Sjaak Priester, Amsterdam 21-06-2014 ... 21-11-2015.
+ * Version 1.1.0
+ * Sjaak Priester, Amsterdam 21-06-2014 ... 02-04-2019.
  *
  * ActiveRecord with spatial attributes in Yii 2.0 framework
  *
@@ -13,6 +13,10 @@ namespace sjaakp\spatial;
 
 use yii\db\ActiveQuery as YiiActiveQuery;
 
+/**
+ * Class ActiveQuery
+ * @package sjaakp\spatial
+ */
 class ActiveQuery extends YiiActiveQuery {
 
     /**
@@ -53,8 +57,8 @@ class ActiveQuery extends YiiActiveQuery {
         $subQuery = $this->create($this)->from($modelCls::tableName())
             ->select([
                 '*',
-                '_lng' => "X({$attribute})",
-                '_lat' => "Y({$attribute})",
+                '_lng' => "ST_X({$attribute})",
+                '_lat' => "ST_Y({$attribute})",
             ])
             ->having([ 'between', '_lng', $lng - $dLng, $lng + $dLng ])
             ->andHaving([ 'between', '_lat', $lat - $dLat, $lat + $dLat ]);
@@ -87,6 +91,11 @@ class ActiveQuery extends YiiActiveQuery {
 
     protected $_skipPrep = false;
 
+    /**
+     * @param $selectExpression
+     * @param $db
+     * @return bool|false|string|null
+     */
     protected function queryScalar($selectExpression, $db)  {
         $this->_skipPrep = true;
         $r = parent::queryScalar($selectExpression, $db);
@@ -94,6 +103,11 @@ class ActiveQuery extends YiiActiveQuery {
         return $r;
     }
 
+    /**
+     * @param $builder
+     * @return YiiActiveQuery|\yii\db\Query
+     * @throws \yii\base\InvalidConfigException
+     */
     public function prepare($builder)    {
         if (! $this->_skipPrep) {   // skip in case of queryScalar; it's not needed, and we get an SQL error (duplicate column names)
             if (empty($this->select))   {
@@ -111,7 +125,7 @@ class ActiveQuery extends YiiActiveQuery {
                     else {
                         $column = $schema->getColumn($field);
                         if (ActiveRecord::isSpatial($column)) {
-                            $this->addSelect(["AsText($field) AS $field"]);
+                            $this->addSelect(["ST_AsText($field) AS $field"]);
                         }
                     }
                 }
@@ -120,6 +134,9 @@ class ActiveQuery extends YiiActiveQuery {
         return parent::prepare($builder);
     }
 
+    /**
+     * @throws \yii\base\InvalidConfigException
+     */
     protected function allColumns() {
         /** @var ActiveRecord $modelClass */
         $modelClass = $this->modelClass;
@@ -127,7 +144,7 @@ class ActiveQuery extends YiiActiveQuery {
         foreach ($schema->columns as $column)   {
             if (ActiveRecord::isSpatial($column)) {
                 $field = $column->name;
-                $this->addSelect(["AsText($field) AS $field"]);
+                $this->addSelect(["ST_AsText($field) AS $field"]);
             }
         }
     }
