@@ -77,3 +77,7 @@ Example usages:
 	$fiveNearestModels =  <model>::find()->nearest($here, <attributeName>)->limit(5)->all();	// search radius is 100 km (default)
     
 	$dataProvider = new ActiveDataProvider([ 'query' => <model>::find()->nearest($here, <attributeName>) ]);
+
+## Thanks
+
+ - **fpolito** for finding a very subtle bug.

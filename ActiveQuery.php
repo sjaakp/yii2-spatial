@@ -1,8 +1,8 @@
 <?php
 /**
  * MIT licence
- * Version 1.1.0
- * Sjaak Priester, Amsterdam 21-06-2014 ... 02-04-2019.
+ * Version 1.1.1
+ * Sjaak Priester, Amsterdam 21-06-2014 ... 19-05-2019.
  *
  * ActiveRecord with spatial attributes in Yii 2.0 framework
  *
@@ -36,6 +36,7 @@ class ActiveQuery extends YiiActiveQuery {
      *
      * @link http://www.plumislandmedia.net/mysql/haversine-mysql-nearest-loc/
      * @link https://en.wikipedia.org/wiki/Haversine_formula
+     * @link https://stackoverflow.com/questions/28254863/mysql-geospacial-search-using-haversine-formula-returns-null-on-same-point (thanks: fpolito)
      */
     public function nearest($from, $attribute, $radius = 100)    {
         $lenPerDegree = 111.045;    // km per degree latitude; for miles, use 69.0
@@ -67,7 +68,7 @@ class ActiveQuery extends YiiActiveQuery {
             ->select([
                 '*',
 //                '_d' => "SQRT(POW(_lng-:lg,2)+POW(_lat-:lt,2))*{$lenPerDeg}"    // Pythagoras
-                '_d' => "{$lenPerDegree}*DEGREES(ACOS(COS(RADIANS(:lt))*COS(RADIANS(_lat))*COS(RADIANS(:lg)-RADIANS(_lng))+SIN(RADIANS(:lt))*SIN(RADIANS(_lat))))"     // Haversine
+                '_d' => "{$lenPerDegree}*DEGREES( IFNULL(ACOS(COS(RADIANS(:lt))*COS(RADIANS(_lat))*COS(RADIANS(:lg)-RADIANS(_lng))+SIN(RADIANS(:lt))*SIN(RADIANS(_lat))),0))"  // Haversine
             ])
             ->params([
                 ':lg' => $lng,
