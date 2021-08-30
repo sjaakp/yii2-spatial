@@ -48,7 +48,7 @@ abstract class SpatialHelper { // declare abstract, we don't want instances (tri
     }
 
     protected static function explodePoint($pnt)    {
-        return array_map('floatval', explode(' ', $pnt));
+        return array_map('floatval', explode(' ', trim($pnt)));
     }
 
     protected static function explodePoints($pntsWkt)    {
