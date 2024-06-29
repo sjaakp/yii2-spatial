@@ -1,9 +1,15 @@
 Yii2-spatial
 ============
 
-ActiveRecord with spatial attributes. Those attributes are transformed from the internal [MySQL format](https://dev.mysql.com/doc/refman/5.5/en/spatial-datatypes.html) to [GeoJSON format](http://geojson.org/geojson-spec.html) after finding, and vice versa before storing.
+[![Latest Stable Version](https://poser.pugx.org/sjaakp/yii2-spatial/v/stable)](https://packagist.org/packages/sjaakp/yii2-spatial)
+[![Total Downloads](https://poser.pugx.org/sjaakp/yii2-spatial/downloads)](https://packagist.org/packages/sjaakp/yii2-spatial)
+[![License](https://poser.pugx.org/sjaakp/yii2-spatial/license)](https://packagist.org/packages/sjaakp/yii2-spatial)
 
-**Yii-spatial** can also be used to find the model or models which are nearest to a given location.
+ActiveRecord with spatial attributes. Those attributes are transformed from the internal
+ [MySQL format](https://dev.mysql.com/doc/refman/8.0/en/spatial-types.html) to 
+ [GeoJSON format](https://geojson.org/) after finding, and vice versa before storing.
+
+**Yii2-spatial** can also be used to find the model or models which are nearest to a given location.
 
 **Notice that this extension is intended to be used with a MySQL or MariaDB database exclusively.**
 
@@ -48,6 +54,7 @@ Override this function to add properties to the GeoJSON encoded attribute.
 
 - `$field` is the attribute name.
 - `$geometry` is an array with the GeoJSON-information, like decoded JSON.
+- Return: `array` of `property => value`.
 
 The default implementation adds the ActiveRecord's primary key as the property `'id'`.
 
@@ -64,6 +71,7 @@ Change the query so that it finds the model(s) nearest to the point given by `$f
      - `array`:  location in the form `[<lng>, <lat>]` (two `floats`).
 - `$attribute` - `string` attribute name of `Point` in the model.
 - `$radius` - `number` search radius in kilometers. Default `100`.
+- Return: `$this`.
 
 Example usages:
 
